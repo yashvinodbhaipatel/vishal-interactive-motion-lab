@@ -1,0 +1,9 @@
+{
+  "name": "vishal-interactive-motion-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Independent Three.js motion design concept by Yash Patel for Vishal Web Studio.",
+  "scripts": { "dev": "node scripts/serve.mjs", "start": "node scripts/serve.mjs", "check": "node --check dist/app.js" },
+  "engines": { "node": ">=20" }
+}
