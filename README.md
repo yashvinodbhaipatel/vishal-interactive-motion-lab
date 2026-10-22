@@ -4,6 +4,8 @@ An independent interactive portfolio concept designed and developed by **Yash Pa
 
 **[Open the live demo](https://yashvinodbhaipatel.github.io/vishal-interactive-motion-lab/)**
 
+![Live desktop preview](docs/hero-preview.jpg)
+
 ## Experience
 
 - Real-time chrome sculpture with drag, keyboard, and finish controls.
@@ -56,4 +58,4 @@ Yash Patel — [GitHub](https://github.com/yashvinodbhaipatel) · [Email](mailto
 
 ## Verification
 
-Validated JavaScript syntax and exercised the deployed page in Brave: WebGL initialization, all experiment tabs, two-sided card flip, bottle-cap reveal, and finish switching. Desktop and 390px mobile layouts were inspected; mobile headline/scene spacing was corrected. A stable sample showed about 50 fps on the test device, so this demo does not claim the 60 fps target is verified. Cold-cache sub-second loading and low-end mobile GPU testing remain to be measured.
+Validated JavaScript syntax and exercised the deployed page in Brave: WebGL initialization, all experiment tabs, two-sided card flip, bottle-cap reveal, and finish switching, pause/resume, and keyboard tab navigation. No application errors were reported in the final browser console check. Desktop and 390px mobile layouts were inspected; mobile headline/scene spacing was corrected. A stable sample showed about 50 fps on the test device, so this demo does not claim the 60 fps target is verified. Cold-cache sub-second loading and low-end mobile GPU testing remain to be measured.
