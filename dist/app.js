@@ -70,7 +70,7 @@ async function boot() {
       const generator = new THREE.PMREMGenerator(renderer); const target = generator.fromEquirectangular(texture); texture.dispose(); generator.dispose(); return target;
     }
     function sculpture() {
-      const group = new Group(); const parts = []; const material = new MeshPhysicalMaterial({ ...finishes.chrome, clearcoat: 1, clearcoatRoughness: .12 });
+      const group = new Group(); const parts = []; const material = new MeshPhysicalMaterial({ color: finishes.chrome.color, roughness: finishes.chrome.roughness, metalness: 1, clearcoat: 1, clearcoatRoughness: .12 });
       const geometry = new TorusGeometry(1.5, .38, 24, 100);
       for (let i = 0; i < 3; i++) {
         const ring = new Mesh(geometry, material); ring.rotation.set(Math.PI / 2.5, i * Math.PI / 3, i * Math.PI / 3); ring.userData.origin = new Vector3(Math.cos(i * Math.PI * 2 / 3) * .26, Math.sin(i * Math.PI * 2 / 3) * .26, 0); ring.position.copy(ring.userData.origin); group.add(ring); parts.push(ring);
@@ -103,7 +103,7 @@ async function boot() {
       const back = canvasTexture(1024, 640, ctx => { ctx.fillStyle = '#1d241b'; ctx.fillRect(0, 0, 1024, 640); ctx.fillStyle = '#070a07'; ctx.fillRect(0, 95, 1024, 120); ctx.fillStyle = '#eeeedd'; ctx.fillRect(75, 290, 690, 65); ctx.fillStyle = '#394130'; ctx.font = '20px monospace'; ctx.fillText('DESIGNED TO MOVE WITH YOU', 95, 331); ctx.fillStyle = '#a6af96'; ctx.font = '19px Arial'; ctx.fillText('An illustrative finance experience. No real account.', 75, 490); ctx.fillStyle = '#fa5429'; ctx.font = '52px Arial'; ctx.fillText('flow ↗', 75, 580); });
       const backMesh = new Mesh(new THREE.ShapeGeometry(shape), new MeshStandardMaterial({ map: back, metalness: .2, roughness: .5 })); normalizeUV(backMesh); backMesh.rotation.y = Math.PI; backMesh.position.z = -.03; pivot.add(backMesh);
       const coins = []; for (let i = 0; i < 3; i++) { const coin = new Mesh(new CylinderGeometry(.43, .43, .09, 40), new MeshStandardMaterial({ color: i === 1 ? 0xfa5429 : 0xcbd1c4, metalness: .95, roughness: .22 })); coin.rotation.x = Math.PI / 2; coin.position.set((i - 1) * 1.6, i % 2 ? 1.8 : -1.6, -.5); group.add(coin); coins.push(coin); }
-      return { group, material, update(time, amount) { pivot.rotation.y = amount * Math.PI; coins.forEach((coin, i) => { coin.rotation.z = time * .1 + i; coin.position.y = (i % 2 ? 1.8 : -1.6) + Math.sin(time + i) * .12; }); } };
+      return { group, material, setFinish(value) { frontMesh.material.color.set(value === 'orange' ? 0xff8a54 : value === 'green' ? 0xb4dca0 : 0xffffff); backMesh.material.color.copy(frontMesh.material.color); }, update(time, amount) { pivot.rotation.y = amount * Math.PI; coins.forEach((coin, i) => { coin.rotation.z = time * .1 + i; coin.position.y = (i % 2 ? 1.8 : -1.6) + Math.sin(time + i) * .12; }); } };
     }
     function luxury() {
       const group = new Group(); const material = new MeshPhysicalMaterial({ color: 0xc8d1c0, metalness: .55, roughness: .12, clearcoat: 1, clearcoatRoughness: .08 });
@@ -128,7 +128,7 @@ async function boot() {
       const rim = new THREE.DirectionalLight(0xfa5429, 2); rim.position.set(5, -1, -3); scene.add(rim);
       const models = { form: sculpture() }; const root = new Group(); scene.add(root); root.add(models.form.group);
       let active = 'form', amount = 0, drag = false, lastX = 0, lastY = 0, targetX = -.18, targetY = -.35, userX = 0, userY = 0;
-      const controller = { renderer, scene, camera, visible: false, ratio: 0, reset() { targetX = -.18; targetY = -.35; userX = userY = 0; amount = 0; dirty = true; }, select(name) { root.remove(models[active].group); if (!models[name]) models[name] = name === 'fintech' ? fintech() : luxury(); active = name; root.add(models[name].group); this.setFinish(finish); this.reset(); }, setFinish(value) { const { label, ...properties } = finishes[value]; Object.assign(models[active].material, properties); models[active].material.color = new THREE.Color(properties.color); models[active].material.needsUpdate = true; dirty = true; }, render(time, delta) {
+      const controller = { renderer, scene, camera, visible: false, ratio: 0, reset() { targetX = -.18; targetY = -.35; userX = userY = 0; amount = 0; dirty = true; }, select(name) { root.remove(models[active].group); if (!models[name]) models[name] = name === 'fintech' ? fintech() : luxury(); active = name; root.add(models[name].group); this.setFinish(finish); this.reset(); }, setFinish(value) { const { label, ...properties } = finishes[value]; Object.assign(models[active].material, properties); models[active].material.color = new THREE.Color(properties.color); models[active].material.needsUpdate = true; models[active].setFinish?.(value); dirty = true; }, render(time, delta) {
         const lerp = paused || reduced.matches ? 1 : 1 - Math.exp(-delta * 7);
         amount += ((hero ? 0 : expanded ? 1 : 0) - amount) * lerp;
         root.rotation.x += (targetX + userX - root.rotation.x) * lerp;

@@ -2,6 +2,8 @@
 
 An independent interactive portfolio concept designed and developed by **Yash Patel** in response to Vishal Web Studio’s 3D & Interactive Motion Designer brief. This is not an official studio website or a commissioned client project.
 
+**[Open the live demo](https://yashvinodbhaipatel.github.io/vishal-interactive-motion-lab/)**
+
 ## Experience
 
 - Real-time chrome sculpture with drag, keyboard, and finish controls.
@@ -46,8 +48,12 @@ Pixel density is capped at 1.5 on desktop and 1.25 on smaller screens, with an a
 
 ## Deployment
 
-Publish the `dist/` directory to a static host. All local paths are relative, supporting a repository subpath. The Sites manifest stores the project identity. A GitHub Pages workflow is included; enable Pages with GitHub Actions in the repository settings to use it.
+Publish the `dist/` directory to a static host. All local paths are relative, supporting a repository subpath. The Sites manifest stores the project identity. GitHub Pages is configured to publish `dist/` automatically when changes reach `main`. The live demo is hosted on GitHub Pages. A separate Sites deployment was not completed because the execution environment could not reach its Git hosting endpoint.
 
 ## Contact
 
 Yash Patel — [GitHub](https://github.com/yashvinodbhaipatel) · [Email](mailto:pyash4329@gmail.com)
+
+## Verification
+
+Validated JavaScript syntax and exercised the deployed page in Brave: WebGL initialization, all experiment tabs, two-sided card flip, bottle-cap reveal, and finish switching. Desktop and 390px mobile layouts were inspected; mobile headline/scene spacing was corrected. A stable sample showed about 50 fps on the test device, so this demo does not claim the 60 fps target is verified. Cold-cache sub-second loading and low-end mobile GPU testing remain to be measured.
